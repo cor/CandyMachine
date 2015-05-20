@@ -4,12 +4,12 @@ import java.util.*;
 
 public class CandyMachine {
 
-    ArrayList<Candy> candyList = new ArrayList<Candy>();   // A list containing all possible candy types
-    int[] coinTypeList = new int[8];                       // lijt van alle soorten munten die bestaan
-    Scanner inputScanner = new Scanner(System.in);         // De Scanner die wordt gebruikt voor de input
+    ArrayList<Candy> candyList = new ArrayList<Candy>();
+    int[] coinTypeList = new int[8];
+    Scanner inputScanner = new Scanner(System.in);
 
-    String status = "WELKOM";                              // Met deze string wordt bijgehouden wat het programma momenteel doet
-    int balance = 673;                                      // het aantal geld in de machine, in centen
+    String status = "WELKOM";
+    int balance = 673;
 
     public CandyMachine() {
 
@@ -50,7 +50,6 @@ public class CandyMachine {
 
     void fillCandyList() {
 
-        // Voeg een aantal soorten snoep toe aan de snoep lijst
         candyList.add(new Candy("Mars", 1, 90, 5));
         candyList.add(new Candy("Twix", 2, 105, 15));
         candyList.add(new Candy("KitKat", 3, 80, 30));
@@ -59,7 +58,6 @@ public class CandyMachine {
     }
     double balanceInEuro() {
 
-        // De balance wordt opgeslagen in centen, dus deze functie wordt gebruikt om het te laten zien in euro's
         return (double) balance / 100;
     }
 
@@ -72,13 +70,11 @@ public class CandyMachine {
 
     void printBalance() {
 
-        // Laat de balance zien op het scherm
         System.out.println("Balans: € " + balanceInEuro());
     }
 
     void printInventory() {
 
-        // Ga door de snoep lijst, en laat een description zien van elk soort snoep
         for (int i = 0; i < candyList.size(); i++ ) {
             System.out.println( candyList.get(i).description());
         }
@@ -87,7 +83,6 @@ public class CandyMachine {
 
     void printInputInfo() {
 
-        // Laat een klein stukje text zien dat
         System.out.println("+-----------------------------------------------------------------------------------------------------------------------+");
         System.out.println("| Kopen? : KOOP<Code> | Geld toevoegen? : ADD<HoeveelheidInCenten> | Inventaris info? : INFO | Klaar met kopen? : KLAAR |");
         System.out.println("+-----------------------------------------------------------------------------------------------------------------------+");
@@ -124,7 +119,6 @@ public class CandyMachine {
 
                 int code;
 
-                // checken of de input ook daadwerkelijk een int bevat
                 try {
                     code = Integer.parseInt(input.substring(4));
                 } catch (NumberFormatException e) {
@@ -147,7 +141,6 @@ public class CandyMachine {
 
                 int toevoeging;
 
-                // checken of de input ook daadwerkelijk een int bevat
                 try {
                     toevoeging = Integer.parseInt(input.substring(3));
                 } catch (NumberFormatException e) {
@@ -186,16 +179,13 @@ public class CandyMachine {
 
     Candy findCandy(int code) {
 
-        // Ga door de snoeplijst
         for (Candy candy : candyList) {
 
-            // als je het soort snoep vind met de goede code, return die soort snoep dan
             if (candy.code == code) {
                 return candy;
             }
         }
 
-        // als er niets is gevonden, return dan null
         return null;
     }
 
@@ -203,7 +193,6 @@ public class CandyMachine {
 
         Candy candy = findCandy(code);
 
-        // check of het snoep wel is gevonden
         if (candy != null) {
 
             balance -= candy.price;
@@ -211,7 +200,6 @@ public class CandyMachine {
             giveCandy(candy);
         }
 
-        // als het snoep niet isw gevonden, dan is de code verkeerd ingevoerd
         else {
             System.out.println("Deze code klopt niet, kies AUB een ander soort snoep");
         }
@@ -219,14 +207,11 @@ public class CandyMachine {
     }
 
     void giveCandy(Candy candy) {
-
-        // "Geef" het snoep aan de klant
         System.out.println("Hier is uw " + candy.name);
     }
 
     void printEmptyLines(int amount) {
 
-        // Print een aantal witregels zodat alles overzichtelijk blijft
         for (int i = 0; i < amount; i++) {
             System.out.println();
         }
@@ -234,17 +219,14 @@ public class CandyMachine {
 
     void giveChange() {
 
-        // Geef alleen geld terug als er ook daadwerkelijk geld is om terug te geven
         if (balance > 0) {
 
             System.out.println("U krijgt nog geld terug:");
 
-            // Blijf munten teruggeven als de balance nog hoger is dan 0
             while (balance > 0) {
 
                 int grootstMogelijkeMunt = 0;
 
-                // Ga door de lijst van munteenheden, en zoek de hoogst mogelijke munt om terug te geven
                 for (int i = 0; i < coinTypeList.length; i++) {
                     if (balance >= coinTypeList[i]) {
                         grootstMogelijkeMunt = coinTypeList[i];
@@ -252,11 +234,8 @@ public class CandyMachine {
                     }
                 }
 
-                // Haal de grootste mogelijke munt van de balance af, en "geef het geld terug"
                 balance -= grootstMogelijkeMunt;
                 System.out.println("€ "+ (double)grootstMogelijkeMunt / 100);
-
-                // als de balance nu 0 is dan stopt deze loop, zo niet dan gaat het weer verder
             }
 
         }

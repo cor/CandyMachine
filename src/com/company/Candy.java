@@ -18,8 +18,8 @@ public class Candy {
         return (double) price / 100;
     }
 
-    void addCandy(int hoeveelheid) {
-        amountLeft += hoeveelheid;
+    void addCandy(int amount) {
+        amountLeft += amount;
     }
 
     String description() {
