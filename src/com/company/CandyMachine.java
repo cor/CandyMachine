@@ -24,7 +24,6 @@ public class CandyMachine {
         while (!status.equals("KLAAR") ) {
 
             if (status.equals("WELKOM")) {
-                printWelcomeMessage();
                 printInventory();
                 status = "INPUT";
             }
@@ -61,13 +60,6 @@ public class CandyMachine {
         return (double) balance / 100;
     }
 
-    void printWelcomeMessage() {
-
-        System.out.println("+-----------------------------------------+");
-        System.out.println("| Welkom bij deze geweldig snoepautomaat! |");
-        System.out.println("+-----------------------------------------+");
-    }
-
     void printBalance() {
 
         System.out.println("Balans: € " + balanceInEuro());
@@ -81,16 +73,8 @@ public class CandyMachine {
 
     }
 
-    void printInputInfo() {
-
-        System.out.println("+-----------------------------------------------------------------------------------------------------------------------+");
-        System.out.println("| Kopen? : KOOP<Code> | Geld toevoegen? : ADD<HoeveelheidInCenten> | Inventaris info? : INFO | Klaar met kopen? : KLAAR |");
-        System.out.println("+-----------------------------------------------------------------------------------------------------------------------+");
-    }
-
     void getInput() {
         printBalance();
-        printInputInfo();
         String input = inputScanner.next();
         handleInput(input);
     }
@@ -98,12 +82,10 @@ public class CandyMachine {
     void handleInput(String input) {
 
         if (input.equals("INFO")) {
-            printEmptyLines(10);
             printInventory();
         }
 
         else if (input.equals("KLAAR")) {
-            printEmptyLines(10);
             giveChange();
 
             status = "KLAAR";
@@ -113,7 +95,6 @@ public class CandyMachine {
 
         else if (input.length() >= 4 && input.substring(0, 4).equals("KOOP")) {
 
-            printEmptyLines(10);
 
             if (input.length() > 4) {
 
@@ -136,7 +117,6 @@ public class CandyMachine {
 
         else if (input.length() >= 3 && input.substring(0, 3).equals("ADD") ) {
 
-            printEmptyLines(10);
             if (input.length() > 3) {
 
                 int toevoeging;
@@ -208,13 +188,6 @@ public class CandyMachine {
 
     void giveCandy(Candy candy) {
         System.out.println("Hier is uw " + candy.name);
-    }
-
-    void printEmptyLines(int amount) {
-
-        for (int i = 0; i < amount; i++) {
-            System.out.println();
-        }
     }
 
     void giveChange() {
