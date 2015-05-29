@@ -5,27 +5,14 @@ import java.util.*;
 public class CandyMachine {
 
     public ArrayList<Candy> candyList = new ArrayList<Candy>();
-    public int[] coinTypeList = new int[8];
+    public int[] coinTypeList = {200, 100, 50, 20, 10, 5, 2, 1};
 
     int balance = 673;
 
     public CandyMachine() {
 
-        fillCoinTypeList();
         fillCandyList();
 
-    }
-
-    void fillCoinTypeList() {
-
-        coinTypeList[0] = 200;
-        coinTypeList[1] = 100;
-        coinTypeList[2] = 50;
-        coinTypeList[3] = 20;
-        coinTypeList[4] = 10;
-        coinTypeList[5] = 5;
-        coinTypeList[6] = 2;
-        coinTypeList[7] = 1;
     }
 
     void fillCandyList() {
