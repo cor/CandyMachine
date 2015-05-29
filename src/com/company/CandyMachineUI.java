@@ -18,7 +18,7 @@ public class CandyMachineUI extends JFrame {
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
     public CandyMachine candyMachine;
 
-    Dimension buttonSize = new Dimension(100, 100);
+    Dimension buttonSize = new Dimension(120, 120);
 
     public CandyMachineUI(CandyMachine candyMachine) {
 
@@ -56,13 +56,16 @@ public class CandyMachineUI extends JFrame {
 
 
 //        label = new JLabel("sup bro");
-        add(label);
+//        add(label);
 
 
         addButtons();
     }
 
 
+    /**
+     * Add all nine Candy buttons
+     */
     private void addButtons() {
 
         // Create nine buttons
@@ -79,7 +82,8 @@ public class CandyMachineUI extends JFrame {
 
             if (candyForButton != null) {
 
-                button = new JButton(candyForButton.name);
+                button = new JButton();
+                button.setText(getTextForButton(candyForButton));
 
                 Point buttonPosition = getPositionForButton(i);
 
@@ -103,6 +107,19 @@ public class CandyMachineUI extends JFrame {
 
     }
 
+    /**
+     * Generate the text for each candy button
+     *
+     * @param candy the Candy for which the text will be generated
+     * @return a string containing the text for the button
+     */
+    private String getTextForButton(Candy candy) {
+        return "<html>" +
+                    "<b>" + candy.name + "</b> <br>" +
+                    "price: &euro;" + candy.priceInEuro() + "<br>" +
+                    "stock: " + candy.amountLeft +
+                "</html>";
+    }
 
     /**
      * A method that calculates the position for each button based on the index (0-8)

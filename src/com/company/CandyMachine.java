@@ -75,17 +75,13 @@ public class CandyMachine {
 
             balance -= candy.price;
             candy.amountLeft--;
-            giveCandy(candy);
+            // give candy to user
         }
 
         else {
             System.out.println("Deze code klopt niet, kies AUB een ander soort snoep");
         }
 
-    }
-
-    void giveCandy(Candy candy) {
-        System.out.println("Hier is uw " + candy.name);
     }
 
     void giveChange() {
