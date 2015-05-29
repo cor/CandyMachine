@@ -6,13 +6,18 @@ package com.company;
  */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class CandyMachineUI extends JFrame {
+public class CandyMachineUI extends JFrame implements ActionListener {
 
     private JLabel titleLabel;
     private JLabel balanceLabel;
+    private JTextField balanceAddField;
+
+
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
     public CandyMachine candyMachine;
 
@@ -45,6 +50,7 @@ public class CandyMachineUI extends JFrame {
         addButtons();
         addTitleLabel();
         addBalanceLabel();
+        addBalanceAddField();
     }
 
 
@@ -62,33 +68,44 @@ public class CandyMachineUI extends JFrame {
                 candyForButton = candyMachine.candyList.get(i);
 
             } catch (IndexOutOfBoundsException e) {
-                // candy remains null
+                // do nothing
             }
 
+            JButton button = new JButton();
+
+            // If there isn't a candy available, show EMPTY on that slot
             if (candyForButton != null) {
-
-                JButton button = new JButton();
                 button.setText(getTextForButton(candyForButton));
-
-                Point buttonPosition = getPositionForButton(i);
-
-                button.setBounds(buttonPosition.x, buttonPosition.y, buttonSize.width, buttonSize.height);
-                add(button);
-
-
-
             } else {
-
-                JButton button = new JButton("EMPTY");
-
-                Point buttonPosition = getPositionForButton(i);
-
-                button.setBounds(buttonPosition.x, buttonPosition.y, buttonSize.width, buttonSize.height);
-                add(button);
+                button.setText("EMPTY");
             }
 
-
+            Point buttonPosition = getPositionForButton(i);
+            button.setBounds(buttonPosition.x, buttonPosition.y, buttonSize.width, buttonSize.height);
+            button.addActionListener(this);
+            add(button);
         }
+
+    }
+
+    /**
+     * Handle user input (typically buttons being pressed)
+     * @param e the event
+     */
+    public void actionPerformed(ActionEvent e) {
+        Object object = e.getSource();
+        JButton button = (JButton) object;
+        balanceAddField.setText(button.getText());
+    }
+
+
+    /**
+     * Add the balanceAddField
+     */
+    private void addBalanceAddField() {
+        balanceAddField = new  JTextField();
+        balanceAddField.setBounds(3 * buttonSize.width, titleLabel.getHeight() + balanceLabel.getHeight(), getSize().width - 3 * buttonSize.width, 40);
+        add(balanceAddField);
 
     }
 
