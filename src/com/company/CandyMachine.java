@@ -34,16 +34,12 @@ public class CandyMachine {
         candyList.add(new Candy("Twix", 2, 105, 15));
         candyList.add(new Candy("KitKat", 3, 80, 30));
         candyList.add(new Candy("Snickers", 4, 70, 20));
+        candyList.add(new Candy("Autodrop", 5, 90, 30));
 
     }
     double balanceInEuro() {
 
         return (double) balance / 100;
-    }
-
-    void printBalance() {
-
-        System.out.println("Balans: € " + balanceInEuro());
     }
 
     void printInventory() {

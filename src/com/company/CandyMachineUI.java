@@ -8,13 +8,17 @@ package com.company;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class CandyMachineUI extends JFrame {
 
     private JLabel label;
     private JButton button;
+    private ArrayList<JButton> buttonList = new ArrayList<JButton>();
     public CandyMachine candyMachine;
+
+    Dimension buttonSize = new Dimension(100, 100);
 
     public CandyMachineUI(CandyMachine candyMachine) {
 
@@ -40,18 +44,18 @@ public class CandyMachineUI extends JFrame {
 
     private void addUIElements() {
 
-        button = new JButton("Snickers");
-        button.setBounds(0, 0, 200, 200);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Hier is jouw Snickers");
-            }
-        });
-        add(button);
+//        button = new JButton("Snickers");
+//        button.setBounds(0, 0, 200, 200);
+//        button.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("Hier is jouw Snickers");
+//            }
+//        });
+//        add(button);
 
 
-        label = new JLabel("sup bro");
+//        label = new JLabel("sup bro");
         add(label);
 
 
@@ -60,20 +64,81 @@ public class CandyMachineUI extends JFrame {
 
 
     private void addButtons() {
+
+        // Create nine buttons
         for (int i = 0; i < 9; i++ ) {
 
+            Candy candyForButton = null;
+
             try {
-                System.out.println(candyMachine.candyList.get(i).description());
+                candyForButton = candyMachine.candyList.get(i);
 
             } catch (IndexOutOfBoundsException e) {
-                System.out.println("Candy is out of bounds");
+                // candy remains null
+            }
 
+            if (candyForButton != null) {
+
+                button = new JButton(candyForButton.name);
+
+                Point buttonPosition = getPositionForButton(i);
+
+                button.setBounds(buttonPosition.x, buttonPosition.y, buttonSize.width, buttonSize.height);
+                add(button);
+
+
+
+            } else {
+
+                button = new JButton("EMPTY");
+
+                Point buttonPosition = getPositionForButton(i);
+
+                button.setBounds(buttonPosition.x, buttonPosition.y, buttonSize.width, buttonSize.height);
+                add(button);
             }
 
 
         }
 
     }
+
+
+    /**
+     * A method that calculates the position for each button based on the index (0-8)
+     * this method is used in the addButtons() method
+     *
+     * @param i the index of the button
+     * @return the position of the button
+     */
+    private Point getPositionForButton(int i) {
+
+         //determine button position;
+        int xPosition = 0;
+        int yPosition = 0;
+
+        if (i <= 2) {
+
+            // first row, spots 0-2
+            xPosition = i * buttonSize.width;
+
+        } else if (i >= 3 && i <= 5) {
+
+            // second row, spots 3-5
+            yPosition = buttonSize.height;
+            xPosition = (i - 3) * buttonSize.width;
+
+        } else if (i >= 6 && i <= 8 ) {
+
+            // third row, spots 6-8
+            yPosition = 2 * buttonSize.height;
+            xPosition = (i - 6) * buttonSize.width;
+        }
+
+        return new Point(xPosition, yPosition);
+
+    }
+
 
 
 }
