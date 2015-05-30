@@ -13,6 +13,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private JTextField balanceAddField;
     private JButton balanceAddButton;
     private JTextArea logTextArea;
+    private JScrollPane logScrollPane;
 
 
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
@@ -174,18 +175,21 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
     private void addLogTextArea() {
-        logTextArea = new JTextArea(5, 1);
-        logTextArea.setBounds(
+        logTextArea = new JTextArea();
+        logTextArea.setEditable(false);
+
+
+        logScrollPane = new JScrollPane(logTextArea);
+        logScrollPane.setBounds(
                 0,
                 3 * buttonSize.height,
                 getWidth(),
-                getHeight() - 3 * buttonSize.height
+                getHeight() - 3 * buttonSize.height - 20
         );
 
-        add(logTextArea);
 
+        add(logScrollPane);
 
-        //TODO: Add propper scrolling
     }
 
 
