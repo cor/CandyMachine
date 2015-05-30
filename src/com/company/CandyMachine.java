@@ -37,9 +37,9 @@ public class CandyMachine {
 
     }
 
-    void addMoney(int hoeveelheid) {
+    void addMoney(int amount) {
 
-        balance += hoeveelheid;
+        balance += amount;
     }
 
     Candy findCandy(int code) {

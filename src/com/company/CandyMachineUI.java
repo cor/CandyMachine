@@ -58,6 +58,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         addTitleLabel();
         addBalanceLabel();
         addBalanceAddField();
+        addBalanceAddButton();
     }
 
     /**
@@ -117,10 +118,14 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private void addBalanceLabel() {
         balanceLabel = new JLabel();
         balanceLabel.setText(getTextForBalanceLabel());
-        balanceLabel.setBounds(3 * buttonSize.width, titleLabel.getHeight(), getSize().width - 3 * buttonSize.width, 50);
         balanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         balanceLabel.setOpaque(true);
         balanceLabel.setBackground(Color.red);
+        balanceLabel.setBounds(
+                3 * buttonSize.width,
+                titleLabel.getHeight(),
+                getSize().width - 3 * buttonSize.width,
+                50);
         add(balanceLabel);
     }
 
@@ -129,9 +134,42 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private void addBalanceAddField() {
         balanceAddField = new  JTextField();
-        balanceAddField.setBounds(3 * buttonSize.width, titleLabel.getHeight() + balanceLabel.getHeight(), getSize().width - 3 * buttonSize.width, 40);
+        balanceAddField.setBounds(
+                3 * buttonSize.width,
+                titleLabel.getHeight() + balanceLabel.getHeight(),
+                getSize().width - 3 * buttonSize.width,
+                40);
         add(balanceAddField);
 
+    }
+
+    private void addBalanceAddButton() {
+        balanceAddButton = new JButton();
+        balanceAddButton.setText("Add to balance");
+        balanceAddButton.setBounds(
+                3 * buttonSize.width,
+                titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight(),
+                getSize().width - 3 * buttonSize.width,
+                40);
+
+        balanceAddButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int amountToAdd;
+                try {
+                    amountToAdd = Integer.parseInt(balanceAddField.getText());
+                } catch (NumberFormatException exception) {
+                    amountToAdd = 0;
+                }
+
+                candyMachine.addMoney(amountToAdd);
+                balanceAddField.setText("");
+
+                updateUI();
+            }
+        });
+        add(balanceAddButton);
     }
 
     /**
