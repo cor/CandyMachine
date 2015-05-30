@@ -1,10 +1,5 @@
 package com.company;
 
-/**
- *
- * Created by cor on 20-05-15.
- */
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +12,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private JLabel balanceLabel;
     private JTextField balanceAddField;
     private JButton balanceAddButton;
+    private JTextArea logTextArea;
 
 
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
@@ -59,6 +55,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         addBalanceLabel();
         addBalanceAddField();
         addBalanceAddButton();
+        addLogTextArea();
     }
 
     /**
@@ -143,6 +140,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Adds the button that adds the balance from the balance add field to the balance
+     */
     private void addBalanceAddButton() {
         balanceAddButton = new JButton();
         balanceAddButton.setText("Add to balance");
@@ -150,7 +150,8 @@ public class CandyMachineUI extends JFrame implements ActionListener {
                 3 * buttonSize.width,
                 titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight(),
                 getSize().width - 3 * buttonSize.width,
-                40);
+                40
+        );
 
         balanceAddButton.addActionListener(new ActionListener() {
             @Override
@@ -171,6 +172,23 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         });
         add(balanceAddButton);
     }
+
+    private void addLogTextArea() {
+        logTextArea = new JTextArea(5, 1);
+        logTextArea.setBounds(
+                0,
+                3 * buttonSize.height,
+                getWidth(),
+                getHeight() - 3 * buttonSize.height
+        );
+
+        add(logTextArea);
+
+
+        //TODO: Add propper scrolling
+    }
+
+
 
     /**
      * update the UI to reflect changes made to the model
@@ -231,8 +249,20 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         Object object = e.getSource();
         JButton button = (JButton) object;
 
-        balanceAddField.setText(candyMachine.findCandy(Integer.parseInt(button.getName())).name);
-        candyMachine.buyCandy(Integer.parseInt(button.getName()));
+        Candy candy;
+
+        try {
+            candy = candyMachine.buyCandy(Integer.parseInt(button.getName()));
+        } catch(NumberFormatException event) {
+            // TODO
+            candy = null;
+
+        }
+
+
+        if (candy != null) {
+            logTextArea.append("Here's your " + candy.name + "\n");
+        }
         updateUI();
     }
 

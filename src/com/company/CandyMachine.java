@@ -54,7 +54,7 @@ public class CandyMachine {
         return null;
     }
 
-    void buyCandy(int code) {
+    Candy buyCandy(int code) {
 
         Candy candy = findCandy(code);
 
@@ -62,11 +62,11 @@ public class CandyMachine {
 
             balance -= candy.price;
             candy.amountLeft--;
-            // give candy to user
+            return candy;
         }
 
         else {
-            System.out.println("Deze code klopt niet, kies AUB een ander soort snoep");
+            return null;
         }
 
     }
