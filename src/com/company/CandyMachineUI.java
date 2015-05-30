@@ -3,6 +3,11 @@ package com.company;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,23 +16,26 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
     private JLabel titleLabel;
     private JLabel balanceLabel;
+    private JLabel creatorLabel;
+
     private JTextField balanceAddField;
     private JButton balanceAddButton;
     private JTextArea logTextArea;
     private JScrollPane logScrollPane;
 
-    // colors
+    // Colors
     public Color backgroundColor = new Color(242, 213, 187);
     public Color logBackgroundColor = new Color(217, 188, 163);
     public Color titleBackgroundColor = new Color(89, 75, 71);
     public Color balanceBackgroundColor = new Color(217, 188, 163);
+    public Color balanceAddButtonBackgroundColor = balanceBackgroundColor;
+    public Color creatorLabelBackgroundColor = new Color(217, 188, 163);
 
-    public Color borderColor = new Color(89, 75, 71);
+    public Color mainForegroundColor = new Color(89, 75, 71);
+    public Color titleForegroundColor = new Color(242, 213, 187);
+    public Color balanceForegroundColor = mainForegroundColor;
 
-    public Color textColor = new Color(89, 75, 71);
-    public Color titleForegroundColor = new Color(21, 26, 38);
-    public Color balanceForegroundColor = textColor;
-
+    public Color borderColor = mainForegroundColor;
 
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
     public CandyMachine candyMachine;
@@ -53,6 +61,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private void setupWindow() {
 
+
         getContentPane().setBackground(backgroundColor);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -71,6 +80,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         addBalanceLabel();
         addBalanceAddField();
         addBalanceAddButton();
+        addCreatorLabel();
         addLogTextArea();
     }
 
@@ -110,7 +120,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
             button.setFocusPainted(false);
             button.setContentAreaFilled(false);
 
-            button.setForeground(textColor);
+            button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            button.setForeground(mainForegroundColor);
 
             button.addActionListener(this);
             button.setMargin(new Insets(0, 0, 0, 0));
@@ -148,6 +160,8 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         balanceLabel.setForeground(balanceForegroundColor);
         balanceLabel.setBackground(balanceBackgroundColor);
 
+        balanceLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, borderColor));
+
         balanceLabel.setText(getTextForBalanceLabel());
         balanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         balanceLabel.setOpaque(true);
@@ -164,6 +178,10 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private void addBalanceAddField() {
         balanceAddField = new  JTextField();
+
+        balanceAddField.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, balanceAddButtonBackgroundColor));
+
+        balanceAddField.setForeground(mainForegroundColor);
         balanceAddField.setBounds(
                 3 * buttonSize.width,
                 titleLabel.getHeight() + balanceLabel.getHeight(),
@@ -179,11 +197,24 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private void addBalanceAddButton() {
         balanceAddButton = new JButton();
         balanceAddButton.setText("Add to balance");
+
+        //styles
+        balanceAddButton.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, borderColor));
+        balanceAddButton.setFocusPainted(false);
+        balanceAddButton.setContentAreaFilled(false);
+
+        balanceAddButton.setForeground(mainForegroundColor);
+        balanceAddButton.setBackground(balanceAddButtonBackgroundColor);
+        balanceAddButton.setOpaque(true);
+
+        balanceAddButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+
         balanceAddButton.setBounds(
                 3 * buttonSize.width,
                 titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight(),
                 getSize().width - 3 * buttonSize.width,
-                40
+                52
         );
 
         balanceAddButton.addActionListener(new ActionListener() {
@@ -206,6 +237,40 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         add(balanceAddButton);
     }
 
+    private void addCreatorLabel() {
+        creatorLabel = new JLabel();
+        creatorLabel.setText("<html>" +
+                "Created by <b>Cor Pruijs</b> <br>" +
+                "<a style='color: " + titleBackgroundColor + "' href=http://github.com/CorPruijs>github.com/CorPruijs</a>" +
+                "</html>");
+
+        creatorLabel.setForeground(mainForegroundColor);
+        creatorLabel.setBackground(creatorLabelBackgroundColor);
+        creatorLabel.setOpaque(true);
+        creatorLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        creatorLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI("http://github.com/CorPruijs"));
+                } catch (URISyntaxException | IOException ex) {
+                    // something went wrong
+                }
+            }
+        });
+
+        creatorLabel.setBounds(
+                3 * buttonSize.width,
+                titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight(),
+                getWidth() - 3 * buttonSize.width,
+                3 * buttonSize.height - (titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight())
+
+        );
+
+        add(creatorLabel);
+    }
+
     /**
      * Adds the log area to the ui that shows all events
      * (for example, receiving a candy)
@@ -214,8 +279,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         logTextArea = new JTextArea();
 
         //colors
-        logTextArea.setForeground(textColor);
+        logTextArea.setForeground(mainForegroundColor);
         logTextArea.setBackground(logBackgroundColor);
+        logTextArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         logTextArea.setEditable(false);
 
