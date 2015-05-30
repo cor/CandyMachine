@@ -16,6 +16,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private JLabel titleLabel;
     private JLabel balanceLabel;
     private JTextField balanceAddField;
+    private JButton balanceAddButton;
 
 
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
@@ -37,6 +38,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
 
+    /**
+     * Set up the window
+     */
     private void setupWindow() {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -44,6 +48,10 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         setTitle("CandyMachine");
     }
 
+
+    /**
+     * Add all the UI elements to the window
+     */
     private void addUIElements() {
 
         addButtons();
@@ -51,7 +59,6 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         addBalanceLabel();
         addBalanceAddField();
     }
-
 
     /**
      * Add all nine Candy buttons
@@ -83,12 +90,49 @@ public class CandyMachineUI extends JFrame implements ActionListener {
             // This is a little bit hacky but we use the name property of the button to store the associated candy's code
             button.setName( candyForButton != null ? "" + candyForButton.code : "" );
             button.addActionListener(this);
+            button.setMargin(new Insets(0, 0, 0, 0));
             add(button);
             buttonList.add(button);
         }
 
     }
 
+    /**
+     * Add the titleLabel
+     */
+    private void addTitleLabel() {
+        titleLabel = new JLabel();
+        titleLabel.setText("CandyMachine");
+        titleLabel.setFont(titleLabel.getFont().deriveFont(16.0f));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setBounds(3 * buttonSize.width, 0, getSize().width - 3 * buttonSize.width, 100);
+        titleLabel.setOpaque(true);
+        titleLabel.setBackground(Color.green);
+        add(titleLabel);
+    }
+
+    /**
+     * Add balanceLabel
+     */
+    private void addBalanceLabel() {
+        balanceLabel = new JLabel();
+        balanceLabel.setText(getTextForBalanceLabel());
+        balanceLabel.setBounds(3 * buttonSize.width, titleLabel.getHeight(), getSize().width - 3 * buttonSize.width, 50);
+        balanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        balanceLabel.setOpaque(true);
+        balanceLabel.setBackground(Color.red);
+        add(balanceLabel);
+    }
+
+    /**
+     * Add the balanceAddField
+     */
+    private void addBalanceAddField() {
+        balanceAddField = new  JTextField();
+        balanceAddField.setBounds(3 * buttonSize.width, titleLabel.getHeight() + balanceLabel.getHeight(), getSize().width - 3 * buttonSize.width, 40);
+        add(balanceAddField);
+
+    }
 
     /**
      * update the UI to reflect changes made to the model
@@ -134,8 +178,11 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Update the balance label
+     */
     private void updateBalanceLabel() {
-        balanceLabel.setText("" + candyMachine.balanceInEuro());
+        balanceLabel.setText(getTextForBalanceLabel());
     }
 
     /**
@@ -152,43 +199,6 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
 
-    /**
-     * Add the balanceAddField
-     */
-    private void addBalanceAddField() {
-        balanceAddField = new  JTextField();
-        balanceAddField.setBounds(3 * buttonSize.width, titleLabel.getHeight() + balanceLabel.getHeight(), getSize().width - 3 * buttonSize.width, 40);
-        add(balanceAddField);
-
-    }
-
-
-    /**
-     * Add the titleLabel
-     */
-    private void addTitleLabel() {
-        titleLabel = new JLabel();
-        titleLabel.setText("CandyMachine");
-        titleLabel.setFont(titleLabel.getFont().deriveFont(16.0f));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setBounds(3 * buttonSize.width, 0, getSize().width - 3 * buttonSize.width, 100);
-        titleLabel.setOpaque(true);
-        titleLabel.setBackground(Color.green);
-        add(titleLabel);
-    }
-
-    /**
-     * Add balanceLabel
-     */
-    private void addBalanceLabel() {
-        balanceLabel = new JLabel();
-        balanceLabel.setText("<html>Balance: <b>&euro;" + candyMachine.balanceInEuro() + "</b> </html>");
-        balanceLabel.setBounds(3 * buttonSize.width, titleLabel.getHeight(), getSize().width - 3 * buttonSize.width, 50);
-        balanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        balanceLabel.setOpaque(true);
-        balanceLabel.setBackground(Color.red);
-        add(balanceLabel);
-    }
 
     /**
      * Generate the text for each candy button
@@ -199,8 +209,19 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private String getTextForButton(Candy candy) {
         return "<html>" +
                     "<b>" + candy.name + "</b> <br>" +
-                    "price: &euro;" + candy.priceInEuro() + "<br>" +
+                    "price: &euro;" + String.format("%10.2f", candy.priceInEuro()) + "<br>" +
                     "stock: " + candy.amountLeft +
+                "</html>";
+    }
+
+    /**
+     * Generate the text for the balance label
+     *
+     * @return a string containing the text for the balance label
+     */
+    private String getTextForBalanceLabel() {
+        return "<html>" +
+                    "Balance: <b>&euro;" + String.format("%10.2f", candyMachine.balanceInEuro()) + "</b>" +
                 "</html>";
     }
 
