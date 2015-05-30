@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class CandyMachineUI extends JFrame implements ActionListener {
 
@@ -14,6 +15,18 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private JButton balanceAddButton;
     private JTextArea logTextArea;
     private JScrollPane logScrollPane;
+
+    // colors
+    public Color backgroundColor = new Color(242, 213, 187);
+    public Color logBackgroundColor = new Color(217, 188, 163);
+    public Color titleBackgroundColor = new Color(89, 75, 71);
+    public Color balanceBackgroundColor = new Color(217, 188, 163);
+
+    public Color borderColor = new Color(89, 75, 71);
+
+    public Color textColor = new Color(89, 75, 71);
+    public Color titleForegroundColor = new Color(21, 26, 38);
+    public Color balanceForegroundColor = textColor;
 
 
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
@@ -39,6 +52,8 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      * Set up the window
      */
     private void setupWindow() {
+
+        getContentPane().setBackground(backgroundColor);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(500, 500); setResizable(false);
@@ -88,6 +103,15 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
             // This is a little bit hacky but we use the name property of the button to store the associated candy's code
             button.setName( candyForButton != null ? "" + candyForButton.code : "" );
+
+            // button styling
+//            button.setBorderPainted(false);
+            button.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 2, borderColor));
+            button.setFocusPainted(false);
+            button.setContentAreaFilled(false);
+
+            button.setForeground(textColor);
+
             button.addActionListener(this);
             button.setMargin(new Insets(0, 0, 0, 0));
             add(button);
@@ -101,12 +125,16 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private void addTitleLabel() {
         titleLabel = new JLabel();
+
+        //set colors
+        titleLabel.setForeground(titleForegroundColor);
+        titleLabel.setBackground(titleBackgroundColor);
+
         titleLabel.setText("CandyMachine");
         titleLabel.setFont(titleLabel.getFont().deriveFont(16.0f));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setBounds(3 * buttonSize.width, 0, getSize().width - 3 * buttonSize.width, 100);
         titleLabel.setOpaque(true);
-        titleLabel.setBackground(Color.green);
         add(titleLabel);
     }
 
@@ -115,10 +143,14 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private void addBalanceLabel() {
         balanceLabel = new JLabel();
+
+        //colors
+        balanceLabel.setForeground(balanceForegroundColor);
+        balanceLabel.setBackground(balanceBackgroundColor);
+
         balanceLabel.setText(getTextForBalanceLabel());
         balanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         balanceLabel.setOpaque(true);
-        balanceLabel.setBackground(Color.red);
         balanceLabel.setBounds(
                 3 * buttonSize.width,
                 titleLabel.getHeight(),
@@ -174,12 +206,21 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         add(balanceAddButton);
     }
 
+    /**
+     * Adds the log area to the ui that shows all events
+     * (for example, receiving a candy)
+     */
     private void addLogTextArea() {
         logTextArea = new JTextArea();
+
+        //colors
+        logTextArea.setForeground(textColor);
+        logTextArea.setBackground(logBackgroundColor);
+
         logTextArea.setEditable(false);
 
-
         logScrollPane = new JScrollPane(logTextArea);
+        logScrollPane.setBorder(BorderFactory.createMatteBorder(4, 0, 0, 0, borderColor));
         logScrollPane.setBounds(
                 0,
                 3 * buttonSize.height,
