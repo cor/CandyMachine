@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class CandyMachineUI extends JFrame implements ActionListener {
 
@@ -49,6 +48,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         setupWindow();
 
         addUIElements();
+        printWelcomeMessage();
         setLayout(null);
 
         setVisible(true);
@@ -226,9 +226,19 @@ public class CandyMachineUI extends JFrame implements ActionListener {
                     amountToAdd = Integer.parseInt(balanceAddField.getText());
                 } catch (NumberFormatException exception) {
                     amountToAdd = 0;
+                    logTextArea.append(
+                            "You entered a wrong value in the balance add field.\n" +
+                            "Please enter a whole number (without a , or . ) representing\n" +
+                            "the amount of money in eurocents.\n"
+                    );
                 }
 
                 candyMachine.addMoney(amountToAdd);
+
+                if (amountToAdd != 0) {
+                    logTextArea.append("Added €" + String.format("%.2f", ((double) amountToAdd / 100)) + " to the balance.\n");
+
+                }
                 balanceAddField.setText("");
 
                 updateUI();
@@ -372,11 +382,19 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
 
         if (candy != null) {
-            logTextArea.append("Here's your " + candy.name + "\n");
+            logTextArea.append("Purchased " + candy.name + " for €" + String.format("%.2f", candy.priceInEuro()) +"\n");
         }
         updateUI();
     }
 
+    private void printWelcomeMessage() {
+        logTextArea.append(
+                "Welcome to the CandyMachine simulator!\n" +
+                "You can add money to your balance by entering an amount (in eurocents)\n" +
+                "in the text box on your right, and then clicking \"Add to balance\".\n" +
+                "If you want to buy a Candy then simply hit one of the 9 candy buttons.\n\n"
+        );
+    }
 
 
     /**
