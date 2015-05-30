@@ -39,9 +39,8 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
     private void setupWindow() {
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 500);
-        setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(500, 500); setResizable(false);
         setTitle("CandyMachine");
     }
 
@@ -67,9 +66,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
             try {
                 candyForButton = candyMachine.candyList.get(i);
 
-            } catch (IndexOutOfBoundsException e) {
-                // do nothing
-            }
+            } catch (IndexOutOfBoundsException e) { /* do nothing */ }
 
             JButton button = new JButton();
 
@@ -82,10 +79,63 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
             Point buttonPosition = getPositionForButton(i);
             button.setBounds(buttonPosition.x, buttonPosition.y, buttonSize.width, buttonSize.height);
+
+            // This is a little bit hacky but we use the name property of the button to store the associated candy's code
+            button.setName( candyForButton != null ? "" + candyForButton.code : "" );
             button.addActionListener(this);
             add(button);
+            buttonList.add(button);
         }
 
+    }
+
+
+    /**
+     * update the UI to reflect changes made to the model
+     */
+    public void updateUI() {
+        updateButtons();
+        updateBalanceLabel();
+    }
+
+    /**
+     * Update the button's text, which contains info about the candy like it's stock
+     */
+    private void updateButtons() {
+
+        for (int i = 0; i < 9; i++) {
+
+            JButton button;
+
+            try  {
+                button = buttonList.get(i);
+
+
+            } catch (IndexOutOfBoundsException e) {
+                button = null;
+            }
+
+            if (button != null) {
+
+
+                Candy candy;
+                try {
+                    candy = candyMachine.candyList.get(i);
+                } catch (IndexOutOfBoundsException e) {
+                    candy = null;
+                }
+
+                if (candy != null) {
+                    button.setText(getTextForButton(candy));
+                }
+            }
+
+
+        }
+    }
+
+    private void updateBalanceLabel() {
+        balanceLabel.setText("" + candyMachine.balanceInEuro());
     }
 
     /**
@@ -95,7 +145,10 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object object = e.getSource();
         JButton button = (JButton) object;
-        balanceAddField.setText(button.getText());
+
+        balanceAddField.setText(candyMachine.findCandy(Integer.parseInt(button.getName())).name);
+        candyMachine.buyCandy(Integer.parseInt(button.getName()));
+        updateUI();
     }
 
 
