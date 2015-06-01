@@ -75,11 +75,13 @@ public class CandyMachine {
 
     }
 
-    void giveChange() {
+    String getChangeString() {
+
+        String changeString = "";
 
         if (balance > 0) {
 
-            System.out.println("U krijgt nog geld terug:");
+            changeString += "Here's your money:\n";
 
             while (balance > 0) {
 
@@ -93,11 +95,13 @@ public class CandyMachine {
                 }
 
                 balance -= grootstMogelijkeMunt;
-                System.out.println("€ "+ (double)grootstMogelijkeMunt / 100);
+                changeString += "€"+ (double)grootstMogelijkeMunt / 100 + "\n";
             }
 
+        } else {
+            changeString = "You do not get any money back";
         }
 
-
+        return changeString;
     }
 }

@@ -18,7 +18,11 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private JLabel creatorLabel;
 
     private JTextField balanceAddField;
+
+    private ArrayList<JButton> buttonList = new ArrayList<JButton>();
     private JButton balanceAddButton;
+    private JButton getChangeButton;
+
     private JTextArea logTextArea;
     private JScrollPane logScrollPane;
 
@@ -36,7 +40,6 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
     public Color borderColor = mainForegroundColor;
 
-    private ArrayList<JButton> buttonList = new ArrayList<JButton>();
     public CandyMachine candyMachine;
 
     Dimension buttonSize = new Dimension(120, 120);
@@ -80,6 +83,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         addBalanceLabel();
         addBalanceAddField();
         addBalanceAddButton();
+        addGetChangeButton();
         addCreatorLabel();
         addLogTextArea();
     }
@@ -248,6 +252,40 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         add(balanceAddButton);
     }
 
+
+    private void addGetChangeButton() {
+        getChangeButton = new JButton();
+        getChangeButton.setText("Get Change");
+        getChangeButton.setForeground(mainForegroundColor);
+        getChangeButton.setBackground(creatorLabelBackgroundColor);
+        getChangeButton.setFocusPainted(false);
+        getChangeButton.setContentAreaFilled(false);
+
+        getChangeButton.setOpaque(true);
+        getChangeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        getChangeButton.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, borderColor));
+
+        getChangeButton.setBounds(
+                3 * buttonSize.width,
+                titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight(),
+                getWidth() - 3 * buttonSize.width,
+                (3 * buttonSize.height - (titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight())) / 2
+        );
+
+        getChangeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logTextArea.append(candyMachine.getChangeString());
+                updateUI();
+            }
+        });
+
+        add(getChangeButton);
+
+    }
+
+
     private void addCreatorLabel() {
         creatorLabel = new JLabel();
         creatorLabel.setText("<html>" +
@@ -273,9 +311,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
         creatorLabel.setBounds(
                 3 * buttonSize.width,
-                titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight(),
+                titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight() + getChangeButton.getHeight(),
                 getWidth() - 3 * buttonSize.width,
-                3 * buttonSize.height - (titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight())
+                (3 * buttonSize.height - (titleLabel.getHeight() + balanceLabel.getHeight() + balanceAddField.getHeight() + balanceAddButton.getHeight())) / 2
 
         );
 
@@ -393,7 +431,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
                 logTextArea.append(
                         "\n" +
                         "You do not have enough money to buy " + candy.name + ".\n" +
-                        "please add €" + ((double) (candy.price - candyMachine.balance) / 100) + " to your balance."
+                        "please add €" + ((double) (candy.price - candyMachine.balance) / 100) + " to your balance.\n"
                 );
             }
 
