@@ -15,6 +15,10 @@ public class CandyMachine {
 
     }
 
+    boolean canBuyCandy(Candy candy) {
+       return balance - candy.price >= 0;
+    }
+
     void fillCandyList() {
 
         candyList.add(new Candy("Mars", 1, 90, 5));

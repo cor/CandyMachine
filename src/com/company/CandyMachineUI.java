@@ -227,6 +227,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
                 } catch (NumberFormatException exception) {
                     amountToAdd = 0;
                     logTextArea.append(
+                            "\n" +
                             "You entered a wrong value in the balance add field.\n" +
                             "Please enter a whole number (without a , or . ) representing\n" +
                             "the amount of money in eurocents.\n"
@@ -371,18 +372,31 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         JButton button = (JButton) object;
 
         Candy candy;
+        int code;
 
         try {
-            candy = candyMachine.buyCandy(Integer.parseInt(button.getName()));
+            candy = candyMachine.findCandy(Integer.parseInt(button.getName()));
+            code = Integer.parseInt(button.getName());
         } catch(NumberFormatException event) {
             // TODO
             candy = null;
-
+            code = 0;
         }
 
 
         if (candy != null) {
-            logTextArea.append("Purchased " + candy.name + " for €" + String.format("%.2f", candy.priceInEuro()) +"\n");
+
+            if (candyMachine.canBuyCandy(candy)) {
+                candy = candyMachine.buyCandy(code);
+                logTextArea.append("Purchased " + candy.name + " for €" + String.format("%.2f", candy.priceInEuro()) +"\n");
+            } else {
+                logTextArea.append(
+                        "\n" +
+                        "You do not have enough money to buy " + candy.name + ".\n" +
+                        "please add €" + ((double) (candy.price - candyMachine.balance) / 100) + " to your balance."
+                );
+            }
+
         }
         updateUI();
     }
