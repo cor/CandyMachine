@@ -14,12 +14,14 @@ import javax.swing.text.DefaultCaret;
 
 public class CandyMachineUI extends JFrame implements ActionListener {
 
+    // Info labels
     private JLabel titleLabel;
     private JLabel balanceLabel;
     private JLabel creatorLabel;
 
     private JTextField balanceAddField;
 
+    // Buttons
     private ArrayList<JButton> buttonList = new ArrayList<JButton>();
     private JButton balanceAddButton;
     private JButton getChangeButton;
@@ -41,10 +43,16 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
     public Color borderColor = mainForegroundColor;
 
+    // the CandyMachine model
     public CandyMachine candyMachine;
 
     Dimension buttonSize = new Dimension(120, 120);
 
+
+    /**
+     * The CandyMachineUI Initializer
+     * @param candyMachine the target candy machine model
+     */
     public CandyMachineUI(CandyMachine candyMachine) {
 
         this.candyMachine = candyMachine;
@@ -61,7 +69,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
 
     /**
-     * Set up the window
+     * Configure the window
      */
     private void setupWindow() {
 
@@ -75,7 +83,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
 
     /**
-     * Add all the UI elements to the window
+     * Add and configure all the UI elements to the window
      */
     private void addUIElements() {
 
@@ -90,7 +98,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Add all nine Candy buttons
+     * Add and configure all nine Candy buttons
      */
     private void addButtons() {
 
@@ -138,7 +146,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Add the titleLabel
+     * Add and configure the titleLabel
      */
     private void addTitleLabel() {
         titleLabel = new JLabel();
@@ -156,7 +164,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Add balanceLabel
+     * Add and configure balanceLabel
      */
     private void addBalanceLabel() {
         balanceLabel = new JLabel();
@@ -179,7 +187,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Add the balanceAddField
+     * Add and configure the balanceAddField
      */
     private void addBalanceAddField() {
         balanceAddField = new  JTextField();
@@ -197,7 +205,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Adds the button that adds the balance from the balance add field to the balance
+     * Adds and configure the button that adds the balance from the balance add field to the balance
      */
     private void addBalanceAddButton() {
         balanceAddButton = new JButton();
@@ -254,6 +262,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
 
+    /**
+     * Add and configure the button that gives back change to the user.
+     */
     private void addGetChangeButton() {
         getChangeButton = new JButton();
         getChangeButton.setText("Get Change");
@@ -286,7 +297,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
     }
 
-
+    /**
+     * Add and configure the label that displays the creator
+     */
     private void addCreatorLabel() {
         creatorLabel = new JLabel();
         creatorLabel.setText("<html>" +
@@ -465,6 +478,9 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         updateUI();
     }
 
+    /**
+     * Print a welcome message that explains how the CandyMachine works
+     */
     private void printWelcomeMessage() {
         logTextArea.append(
                 "Welcome to the CandyMachine simulator!\n" +

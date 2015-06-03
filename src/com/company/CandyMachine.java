@@ -15,15 +15,28 @@ public class CandyMachine {
 
     }
 
+    /**
+     * A method that checks if there is enough Candy is left of a Candy
+     * @param candy the Candy
+     * @return a value that is true when thre is enough candy left, false when there isn't
+     */
     boolean enoughCandyLeft(Candy candy) {
         return candy.amountLeft > 0;
     }
 
+    /**
+     * A method that checks if the user has enough money for a Candy
+     * @param candy the Candy
+     * @return a value that is true when the user has enough money, false when the user doesn't
+     */
     boolean hasEnoughBalanceToBuyCandy(Candy candy) {
         return balance - candy.price >=0;
     }
 
 
+    /**
+     * Fill the Candy list with Candys
+     */
     void fillCandyList() {
 
         candyList.add(new Candy("Mars", 1, 90, 5));
@@ -33,6 +46,11 @@ public class CandyMachine {
         candyList.add(new Candy("Autodrop", 5, 90, 30));
 
     }
+
+    /**
+     * A method that convert the price from eurocents (int) to euro (Double)
+     * @return a double that represents the price in euro
+     */
     double balanceInEuro() {
 
         return (double) balance / 100;
@@ -42,19 +60,20 @@ public class CandyMachine {
         return String.format("€%.2f", balanceInEuro());
     }
 
-    void printInventory() {
-
-        for (int i = 0; i < candyList.size(); i++ ) {
-            System.out.println( candyList.get(i).description());
-        }
-
-    }
-
+    /**
+     * A method that adds money to the balance
+     * @param amount the amount of money
+     */
     void addMoney(int amount) {
 
         balance += amount;
     }
 
+    /**
+     * A method that searches for a Candy using the Candy's code
+     * @param code the Candy's code
+     * @return the found Candy, or null if the method didn't find the Candy.
+     */
     Candy findCandy(int code) {
 
         for (Candy candy : candyList) {
@@ -67,6 +86,11 @@ public class CandyMachine {
         return null;
     }
 
+    /**
+     * Buy a Candy
+     * @param code the Candy's code
+     * @return the bought Candy
+     */
     Candy buyCandy(int code) {
 
         Candy candy = findCandy(code);
@@ -84,13 +108,17 @@ public class CandyMachine {
 
     }
 
+    /**
+     * Clear the balance and return a string that shows all coins that the user gets
+     * @return the String that shows all coins that the user gets
+     */
     String getChangeString() {
 
         String changeString = "";
 
         if (balance > 0) {
 
-            changeString += "Here's your money:\n";
+            changeString += "\nHere's your money:\n";
 
             while (balance > 0) {
 

@@ -29,6 +29,10 @@ public class Candy {
         return (double) price / 100;
     }
 
+    /**
+     * Creates a formatted String of the price
+     * @return the formatted String of the price
+     */
     String formattedPriceInEuro() {
         return String.format("€%.2f", priceInEuro());
     }
