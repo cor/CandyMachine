@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 
 public class CandyMachineUI extends JFrame implements ActionListener {
 
@@ -326,6 +327,8 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private void addLogTextArea() {
         logTextArea = new JTextArea();
+        DefaultCaret caret = (DefaultCaret)logTextArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         //colors
         logTextArea.setForeground(mainForegroundColor);
