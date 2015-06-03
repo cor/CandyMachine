@@ -15,9 +15,14 @@ public class CandyMachine {
 
     }
 
-    boolean canBuyCandy(Candy candy) {
-       return balance - candy.price >= 0;
+    boolean enoughCandyLeft(Candy candy) {
+        return candy.amountLeft > 0;
     }
+
+    boolean hasEnoughBalanceToBuyCandy(Candy candy) {
+        return balance - candy.price >=0;
+    }
+
 
     void fillCandyList() {
 

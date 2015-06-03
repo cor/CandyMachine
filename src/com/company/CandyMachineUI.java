@@ -352,7 +352,6 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
 
-
     /**
      * update the UI to reflect changes made to the model
      */
@@ -366,29 +365,35 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private void updateButtons() {
 
+        // Iterate over all the Candy Buttons
         for (int i = 0; i < 9; i++) {
 
             JButton button;
 
             try  {
+                // Get the correct button from the list
                 button = buttonList.get(i);
 
-
             } catch (IndexOutOfBoundsException e) {
+
+                // If the button doesn't exist, assign null to it
                 button = null;
             }
 
-            if (button != null) {
 
+            // Check if the button actually exists.
+            if (button != null) {
 
                 Candy candy;
                 try {
+                    // Try to get the cady from the list
                     candy = candyMachine.candyList.get(i);
                 } catch (IndexOutOfBoundsException e) {
                     candy = null;
                 }
 
                 if (candy != null) {
+                    // if the candy and the button both exist, update the button's text.
                     button.setText(getTextForButton(candy));
                 }
             }
@@ -405,10 +410,11 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Handle user input (typically buttons being pressed)
+     * Handle user input for the Candy buy Buttons
      * @param e the event
      */
     public void actionPerformed(ActionEvent e) {
+
         Object object = e.getSource();
         JButton button = (JButton) object;
 
@@ -416,26 +422,43 @@ public class CandyMachineUI extends JFrame implements ActionListener {
         int code;
 
         try {
+            // try to get the name of the button, which contains of the code of the Candy that the user has selected.
             candy = candyMachine.findCandy(Integer.parseInt(button.getName()));
             code = Integer.parseInt(button.getName());
         } catch(NumberFormatException event) {
-            // TODO
             candy = null;
             code = 0;
         }
 
 
+        // First check if the Candy that has been selected actually exists
         if (candy != null) {
 
-            if (candyMachine.canBuyCandy(candy)) {
-                candy = candyMachine.buyCandy(code);
-                logTextArea.append("Purchased " + candy.name + " for " + candy.formattedPriceInEuro() +"\n");
+            // Then check if the CandyMachine has enough candy left of that type
+            if (candyMachine.enoughCandyLeft(candy)) {
+
+                // Finally, we check if we have enough money to buy the Candy
+                if (candyMachine.hasEnoughBalanceToBuyCandy(candy)) {
+
+                    // If all of the above are true, buy the candy
+                    candy = candyMachine.buyCandy(code);
+                    logTextArea.append("Purchased " + candy.name + " for " + candy.formattedPriceInEuro() +"\n");
+
+                } else {
+
+                    // The user doesn't have enough money, print a message to the log text area
+                    logTextArea.append(
+                            "\n" +
+                            "You do not have enough money to buy " + candy.name + ".\n" +
+                            "please add €" + ((double) (candy.price - candyMachine.balance) / 100) + " to your balance.\n"
+                    );
+                }
+
             } else {
-                logTextArea.append(
-                        "\n" +
-                        "You do not have enough money to buy " + candy.name + ".\n" +
-                        "please add €" + ((double) (candy.price - candyMachine.balance) / 100) + " to your balance.\n"
-                );
+
+                // The Candy is out of stuck, print a message to the log text area
+                logTextArea.append( "\nThis Candy is unfortunately out of stock,\n please choose another one");
+
             }
 
         }
