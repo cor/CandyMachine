@@ -33,6 +33,10 @@ public class CandyMachine {
         return (double) balance / 100;
     }
 
+    String formatedBalanceInEuro() {
+        return String.format("€%.2f", balanceInEuro());
+    }
+
     void printInventory() {
 
         for (int i = 0; i < candyList.size(); i++ ) {
@@ -95,7 +99,7 @@ public class CandyMachine {
                 }
 
                 balance -= grootstMogelijkeMunt;
-                changeString += "€"+ (double)grootstMogelijkeMunt / 100 + "\n";
+                changeString += String.format("€%.2f\n", (double)grootstMogelijkeMunt / 100 );
             }
 
         } else {

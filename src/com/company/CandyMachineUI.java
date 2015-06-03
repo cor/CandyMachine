@@ -426,7 +426,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
 
             if (candyMachine.canBuyCandy(candy)) {
                 candy = candyMachine.buyCandy(code);
-                logTextArea.append("Purchased " + candy.name + " for €" + String.format("%.2f", candy.priceInEuro()) +"\n");
+                logTextArea.append("Purchased " + candy.name + " for " + candy.formattedPriceInEuro() +"\n");
             } else {
                 logTextArea.append(
                         "\n" +
@@ -458,7 +458,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
     private String getTextForButton(Candy candy) {
         return "<html>" +
                     "<b>" + candy.name + "</b> <br>" +
-                    "price: &euro;" + String.format("%10.2f", candy.priceInEuro()) + "<br>" +
+                    "price: " + candy.formattedPriceInEuro() + "<br>" +
                     "stock: " + candy.amountLeft +
                 "</html>";
     }
@@ -470,7 +470,7 @@ public class CandyMachineUI extends JFrame implements ActionListener {
      */
     private String getTextForBalanceLabel() {
         return "<html>" +
-                    "Balance: <b>&euro;" + String.format("%10.2f", candyMachine.balanceInEuro()) + "</b>" +
+                    "Balance: <b>" + candyMachine.formatedBalanceInEuro() + "</b>" +
                 "</html>";
     }
 
